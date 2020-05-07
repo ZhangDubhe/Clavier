@@ -25,7 +25,7 @@
 
 <template>
   <div class="page-footer">
-    <a href="http://www.suncreativesolution.com/#/" target="_blank" class="record-info">By Sun</a>
+    <a href="https://www.suncreativesolution.com/#/project/clavier" target="_blank" class="record-info">By Sun</a>
     <a href="https://github.com/WarpPrism/AutoPiano" class="record-info">&copy;Script credit: 晶体世界</a>
     <ul class="footer-ul">
       <!--<li class="footer-item"><a href="//crystalworld.xin/apple/#/iphone_music" target="_blank">iPhone Music Player</a></li>-->

@@ -8,7 +8,7 @@
       <textarea class="input-textarea" v-model="textStore" placeholder="input your text here!"></textarea>
     </section>
     <p class="input-tips">Word 'Clavier' extracted from Well-tempered Claviar by Bach. Not only the keyboard ⌨️ but the key board 🎹 Type something here, and listen the music for your words.</p>
-    <section>
+    <section v-if="isReaingOnline">
        <AudioPlayer :para-text="textStore" :type="audioType"></AudioPlayer>
     </section>
     <PageFooter></PageFooter>
@@ -29,6 +29,7 @@ export default {
   name: 'Home',
   data() {
     return {
+      isReaingOnline: false,
       percent: 0,
       textStore: DemoText.para,
       audioType: 'notes_major'

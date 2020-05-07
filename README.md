@@ -5,6 +5,18 @@
 
 ## 项目简介
 
+
+[![Watch the video](https://github.com/MysteriousMing/Clavier/blob/master/Vimeo/Screen%20Shot%202019-10-13%20at%2019.58.36.png)](https://vimeo.com/337214345)
+
+体验地址：https://mysteriousming.github.io/Clavier/#/
+
+项目演示：https://vimeo.com/337214345
+
+项目说明：https://www.suncreativesolution.com/#/project/clavier
+
+
+架构来源于双鸭山大佬的auto piano。
+
 双鸭山大佬原项目，真的特别出色：
 
 ![autopiano.png](https://user-gold-cdn.xitu.io/2019/4/1/169d81ff4a11e634?w=1318&h=850&f=png&s=579420)
@@ -41,7 +53,7 @@ https://codepen.io/search/pens?q=piano&page=1&order=popularity&depth=everything
 
 ## 最后
 
-> 最后再贴一下体验地址： https://mysteriousming.github.io/Clavier/dist/#/
+> 最后再贴一下体验地址： https://mysteriousming.github.io/Clavier/#/
 
 欢迎体验，分享。
 
@@ -49,4 +61,6 @@ https://codepen.io/search/pens?q=piano&page=1&order=popularity&depth=everything
 
 再次感谢双鸭山大佬 晶体世界～
 
+## CHANGELOG
+更新了 github actions 的自动打包。
 
