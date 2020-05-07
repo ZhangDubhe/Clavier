@@ -29,7 +29,7 @@ export default {
   name: 'Home',
   data() {
     return {
-      isReaingOnline: false,
+      isReaingOnline: true,
       percent: 0,
       textStore: DemoText.para,
       audioType: 'notes_major'

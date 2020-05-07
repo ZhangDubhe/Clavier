@@ -10,19 +10,21 @@
       period: {{alphaDuration}}, min meters: {{maxMeter}}
     </section>
     <section style="width: 50%; float: left">
-      <p>Split Mode</p>
-      <span v-for="(item, index) in paraArr" :key="index" style="margin-bottom: 0.5rem; clear: both;">
-        <span v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" class="word word-span" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex}" :style="{'padding-right': alpha.meters * 200 + 'px'}"><span class="word-letter">{{alpha.letter}}</span><span class="word-meter">{{alpha.metersStr}}</span></span>
-      </span>
+      <p class="mb-2">Split Mode</p>
+      <div>
+        <span v-for="(item, index) in paraArr" :key="index" class="whole-word" style="margin-bottom: 0.5rem; clear: both;">
+          <span v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" class="word word-span" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex}" :style="{'padding-right': alpha.meters * 200 + 'px'}"><span class="word-letter">{{alpha.letter}}</span><span class="word-meter">{{alpha.metersStr}}</span></span>
+        </span>
+      </div>
     </section>
     <van-sticky>
       <section style="width: 50%; float: right">
-        InLine Mode
-          <div class="word-wrap">
-            <span class="word" style="margin-right: 4px" v-for="(item, index) in paraArr" :key="index">
-              <span  v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex}">{{alpha.letter}}</span>
-            </span>
-          </div>
+        <p class="mb-2">InLine Mode</p>
+        <div class="word-wrap">
+          <span class="word" style="margin-right: 4px" v-for="(item, index) in paraArr" :key="index">
+            <span  v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex}">{{alpha.letter}}</span>
+          </span>
+        </div>
       </section>
     </van-sticky>
   </main>
@@ -220,9 +222,14 @@ export default {
 
 <style lang="less">
 @pblue: #1296db;
+@bgColor: #212733;
 @textdark: #2c3e50;
-.page-audio { 
-  width: 100%; min-width: 1080px; min-height: 100%; padding: 1px; padding-bottom: 150px; font-family: 'Avenir', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: @textdark; font-weight: bold;
+.mb-2 {
+  margin-bottom: 1rem;
+}
+.page-audio {
+  width: calc(87% + 32px);
+  margin: auto; min-height: 100%; padding: 1px; padding-bottom: 150px; font-family: 'Avenir', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: @textdark; font-weight: bold;
   header, section {
     padding: 16px;
   }
@@ -239,28 +246,30 @@ export default {
 
     flex-flow: row wrap;
     align-items: baseline;
+    font-weight: light;
   }
   .word {
     color: #4c4c4c;
     line-height: 1.5;
     span {
       line-height: 1.5;
+      font-weight: 500;
     }
     .highlight {
       color: rgb(252, 180, 86);
-      font-weight: bolder;
     }
 
     &.word-span {
-      background: rgb(86, 163, 252);
-      color: white;
+      background: white;
+      color: @bgColor;
       border-radius: 10px;
       padding: 0px 10px;
       margin:4px;
-
+      box-shadow: 0 0 10px 0 #33333360;
       float: left;
       &.highlight {
-        background: rgb(252, 180, 86);
+        background: @bgColor;
+        color: white;
       }
       .word-meter {
         font-size: 0.4em;
@@ -272,7 +281,8 @@ export default {
     padding: 10px 16px;
     border-radius: 12px;
     margin: 10px 10px;
-
+    background: @bgColor;
+    color: white;
     &:focus {
       outline: 12px;
     }

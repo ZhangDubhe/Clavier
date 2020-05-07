@@ -1,3 +1,3 @@
 export default {
-  para: `The man once hailed as “America’s Mayor” is now at the center of the most confounding political story of the Trump presidency. Rudy Giuliani’s back-channel efforts to pressure Ukrainian officials on behalf of President Trump has helped prompt the impeachment inquiry that may tarnish both men.`
+  para: `Word Clavier extracted from Well-tempered Claviar by Bach. Not only the keyboard but the key board. Type something here, and listen the music for your words.`
 }
