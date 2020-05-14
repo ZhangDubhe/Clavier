@@ -2,8 +2,7 @@
   <main class="page-audio">
     <header class="">
     <section id="testAudio" class="flex-row">
-      <button class="button mx-auto" @click="playText()">Play Text</button>
-      <button v-if="isPlaying" class="button ml-2" @click="stop()">Stop</button>
+      <button class="button mx-auto" @click="generate()">generate</button>
     </section>
     </header>
     <section>
@@ -13,16 +12,23 @@
       <p class="mb-2">Split Mode</p>
       <div>
         <span v-for="(item, index) in paraArr" :key="index" class="whole-word" style="margin-bottom: 0.5rem; clear: both;">
-          <span v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" class="word word-span" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex}" :style="{'padding-right': alpha.meters * 200 + 'px'}"><span class="word-letter">{{alpha.letter}}</span><span class="word-meter">{{alpha.metersStr}}</span></span>
+          <span v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" class="word word-span"
+          :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex, 'played': index <= activeLetter.wordIndex && alphaIndex < activeLetter.letterIndex}"
+          :style="{'padding-right': alpha.meters * 200 + 'px'}"><span class="word-letter">{{alpha.letter}}</span><span class="word-meter">{{alpha.metersStr}}</span></span>
         </span>
       </div>
     </section>
     <van-sticky>
       <section style="width: 50%; float: right">
-        <p class="mb-2">InLine Mode</p>
+        <p class="mb-2">InLine Mode
+        <button class="button ml-2" @click="isPlaying ? stop() : playText()">
+          {{isPlaying ? 'Stop':'Play'}}
+          <span>{{isPlaying ? '⏸':'▶️'}}</span>
+        </button>
+        </p>
         <div class="word-wrap">
           <span class="word" style="margin-right: 4px" v-for="(item, index) in paraArr" :key="index">
-            <span  v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex}">{{alpha.letter}}</span>
+            <span  v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex,'played': index < activeLetter.wordIndex || index <= activeLetter.wordIndex && alphaIndex < activeLetter.letterIndex}">{{alpha.letter}}</span>
           </span>
         </div>
       </section>
@@ -44,8 +50,12 @@ export default {
     type: String,
   },
   watch: {
+    paraText (to, from) {
+      this.paraArr = this.computedText().map(item => this.computedItem(item))
+    },
     type (to, from) {
       if (to) {
+        this.stop()
         this.Notes = this.notesReady[to]
         // this.playText()
       }
@@ -162,6 +172,10 @@ export default {
       })
       return noteArr
     },
+    generate() {
+      this.stop()
+      this.playText()
+    },
     playText() {
       let vm = this
       this.playingCaches = this.computedEachNote()
@@ -249,7 +263,7 @@ export default {
     font-weight: light;
   }
   .word {
-    color: #4c4c4c;
+    color: #8c8c8c;
     line-height: 1.5;
     span {
       line-height: 1.5;
@@ -257,6 +271,9 @@ export default {
     }
     .highlight {
       color: rgb(252, 180, 86);
+    }
+    .played {
+      color: #4c4c4c;
     }
 
     &.word-span {
