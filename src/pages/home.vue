@@ -12,7 +12,7 @@
     <section v-if="isReaingOnline">
        <AudioPlayer :para-text="textStore" :type="audioType"></AudioPlayer>
     </section>
-    <p class="input-tips">Word 'CLAVIER' extracted from <strong>Well-tempered Claviar</strong> by Bach. <br>Not only the keyboard ⌨️ but the key board 🎹 Type something here, and listen the music for your words.</p>
+    <p class="input-tips">Word 'CLAVIER' extracted from <strong class="italic">Well-tempered Claviar</strong> by Bach. <br>Not only the keyboard ⌨️ but the key board 🎹. Type something here, and listen the music for your words.</p>
     <PageFooter></PageFooter>
   </div>
 </template>
@@ -33,7 +33,7 @@ export default {
     return {
       isReaingOnline: true,
       percent: 0,
-      textStore: '',
+      textStore: 'And those who were seen dancing were thought to be insane by',
       audioType: 'notes_major'
     }
   },
@@ -123,11 +123,15 @@ export default {
     border-radius: 12px;
   }
  .input-tips {
-   margin-top: 30px;
-  
+    clear: both;
+    padding-top: 30px;
     text-align: center;
-    color: #999999;
+    color: #212733;
     font-size: 12px;
+    line-height: 16px;
+    strong.italic {
+      font-style: italic;
+    }
   }
   .input-textarea {
     width: 87%;

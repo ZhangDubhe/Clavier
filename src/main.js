@@ -5,10 +5,19 @@ import App from './App'
 import router from './router'
 import '@vant/touch-emulator';
 import {
-  Sticky
+  RadioGroup,
+  Radio,
+  Sticky,
+  Switch,
+  Icon
 } from 'vant';
 
+
+Vue.use(Icon);
+Vue.use(Radio);
+Vue.use(RadioGroup);
 Vue.use(Sticky);
+Vue.use(Switch);
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
