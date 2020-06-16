@@ -5,12 +5,14 @@
     <Piano @changeNote="changeAudioType"></Piano>
 
     <section class="page-section-wrap">
-      <textarea class="input-textarea" v-model="textStore" placeholder="input your text here!"></textarea>
+      <textarea class="input-textarea" v-model="textStore" placeholder="input your text here!"
+
+      ></textarea>
     </section>
-    <p class="input-tips">Word 'Clavier' extracted from Well-tempered Claviar by Bach. Not only the keyboard ⌨️ but the key board 🎹 Type something here, and listen the music for your words.</p>
     <section v-if="isReaingOnline">
        <AudioPlayer :para-text="textStore" :type="audioType"></AudioPlayer>
     </section>
+    <p class="input-tips">Word 'CLAVIER' extracted from <strong class="italic">Well-tempered Claviar</strong> by Bach. <br>Not only the keyboard ⌨️ but the key board 🎹. Type something here, and listen the music for your words.</p>
     <PageFooter></PageFooter>
   </div>
 </template>
@@ -31,7 +33,7 @@ export default {
     return {
       isReaingOnline: true,
       percent: 0,
-      textStore: DemoText.para,
+      textStore: 'And those who were seen dancing were thought to be insane by',
       audioType: 'notes_major'
     }
   },
@@ -110,18 +112,26 @@ export default {
 
 .page-home { width: 100%; min-width: 1080px; min-height: 100%; padding: 1px; padding-bottom: 150px; font-family: 'Avenir', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: @textdark;  position: absolute; top: 0; left: 0;
   .app-bg { width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: -100; opacity: 0.5;}
-  .page-section-wrap { width: 100%; padding: 0px; display: flex; align-items: center; justify-content: space-around; }
+  .page-section-wrap {
+    padding: 56px 0 0;
+    width: 100%;
+    display: flex; align-items: center; justify-content: space-around;
+  }
   .page-section-wrap button {
     margin: 12px 6px 4px;
     padding: 10px 16px;
     border-radius: 12px;
   }
  .input-tips {
-   margin-top: 30px;
-  
+    clear: both;
+    padding-top: 30px;
     text-align: center;
-    color: #999999;
+    color: #212733;
     font-size: 12px;
+    line-height: 16px;
+    strong.italic {
+      font-style: italic;
+    }
   }
   .input-textarea {
     width: 87%;
@@ -130,11 +140,16 @@ export default {
     color: @textdark;
     border: none;
     border-radius: 4px;
-    box-shadow: 0 0 10px 0 #33333360;
-    padding: 10px;
+    font-size: 14px;
+    line-height: 19px;
+    box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.08);
+    padding: 19px 16px;
     &:focus {
       outline: none;
       box-shadow: 0 0 20px 0 #78888960;
+    }
+    &::placeholder {
+      color: rgba(33, 39, 51, 0.4);
     }
   }
 }

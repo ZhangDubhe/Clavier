@@ -1,14 +1,43 @@
 <template>
   <main class="page-audio">
-    <header class="">
-    <section id="testAudio" class="flex-row">
-      <button class="button mx-auto" @click="generate()">generate</button>
-    </section>
-    </header>
+    <h1 class="mb-4">Music Generation</h1>
+    <div class="flex-row align-items-stretch mb-2">
+      <header class="control-header">
+        <div class="form-item">
+          <span class="label">Autochord</span>
+          <van-switch v-model="isAutochoard" size="22px"
+          :active-color="activeColor" inactive-color="#d2d2d2"></van-switch>
+        </div>
+        <div class="form-item">
+          <span class="label">Period</span>
+          <van-radio-group v-model="alphaDuration">
+            <van-radio v-for="(item, index) in periods" :key="index" :name="item">{{item}}</van-radio>
+          </van-radio-group>
+        </div>
+        <section id="testAudio" class="flex-row">
+          <button class="button mx-auto" @click="generate()">Generate</button>
+        </section>
+      </header>
+      <div class="divider-line"></div>
+      <section class="content-wrapper">
+          <ProgressBar :value="0.8"></ProgressBar>
+          <button class="button transparent ml-2" @click="isPlaying ? stop() : playText()">
+            <van-icon :color="activeColor" size="40" v-if="isPlaying" name="pause" />
+            <van-icon :color="activeColor" size="40" v-else name="play" />
+          </button>
+          <div class="word-wrap">
+            <span class="word" style="margin-right: 4px" v-for="(item, index) in paraArr" :key="index">
+              <span  v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" 
+              :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex,'played': index < activeLetter.wordIndex || index <= activeLetter.wordIndex && alphaIndex < activeLetter.letterIndex}">{{alpha.letter}}<span v-if="index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex" class="icon-music"></span></span>
+            </span>
+          </div>
+        </section>
+    </div>
+
     <section>
       period: {{alphaDuration}}, min meters: {{maxMeter}}
     </section>
-    <section style="width: 50%; float: left">
+    <section style="width: 100%; float: left">
       <p class="mb-2">Split Mode</p>
       <div>
         <span v-for="(item, index) in paraArr" :key="index" class="whole-word" style="margin-bottom: 0.5rem; clear: both;">
@@ -18,21 +47,7 @@
         </span>
       </div>
     </section>
-    <van-sticky>
-      <section style="width: 50%; float: right">
-        <p class="mb-2">InLine Mode
-        <button class="button ml-2" @click="isPlaying ? stop() : playText()">
-          {{isPlaying ? 'Stop':'Play'}}
-          <span>{{isPlaying ? '⏸':'▶️'}}</span>
-        </button>
-        </p>
-        <div class="word-wrap">
-          <span class="word" style="margin-right: 4px" v-for="(item, index) in paraArr" :key="index">
-            <span  v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex,'played': index < activeLetter.wordIndex || index <= activeLetter.wordIndex && alphaIndex < activeLetter.letterIndex}">{{alpha.letter}}</span>
-          </span>
-        </div>
-      </section>
-    </van-sticky>
+
   </main>
 </template>
 
@@ -42,9 +57,12 @@ import Tone from 'tone'
 import Observe from 'observe'
 import { Lyrics, NotesMajor, NotesWholeTone, NotesChromatic, NotesPentatonic, OBEvent } from 'config/'
 import SmapleLibrary from '@/lib/Tonejs-Instruments.js'
-
+import ProgressBar from '@/components/ProgressBar'
 export default {
   name: 'AudioPlayer',
+  components: {
+    ProgressBar
+  },
   props: {
     paraText: String,
     type: String,
@@ -63,10 +81,17 @@ export default {
   },
   data() {
     return {
+      activeColor: '#212733',
+      isAutochoard: true,
+      periods: [
+        1000,
+        2000,
+        4000
+      ],
       paraArr: [],
       activeLetter: {
-        wordIndex: -1,
-        letterIndex: -1
+        wordIndex: 0,
+        letterIndex: 1
       },
       inputText: '',
       notesReady: {
@@ -238,22 +263,31 @@ export default {
 @pblue: #1296db;
 @bgColor: #212733;
 @textdark: #2c3e50;
-.mb-2 {
-  margin-bottom: 1rem;
+.mb {
+  &-2 {
+    margin-bottom: 1rem;
+  }
+  &-4 {
+    margin-bottom: 2rem;
+  }
 }
 .page-audio {
   width: calc(87% + 32px);
   margin: auto; min-height: 100%; padding: 1px; padding-bottom: 150px; font-family: 'Avenir', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: @textdark; font-weight: bold;
-  header, section {
-    padding: 16px;
-  }
-  header {
-    font-size: 20px;
-  }
+
   .flex-row {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
+
+    &.align-items-stretch {
+      align-items: stretch;
+    }
+  }
+  .content-wrapper {
+    padding: 0 20px;
+    flex: 1;
+    width: 100%;
   }
   .word-wrap {
     display: flex;
@@ -264,13 +298,23 @@ export default {
   }
   .word {
     color: #8c8c8c;
-    line-height: 1.5;
+    line-height: 1.7;
     span {
       line-height: 1.5;
       font-weight: 500;
     }
     .highlight {
       color: rgb(252, 180, 86);
+      position: relative;
+      .icon-music {
+        position: absolute;
+        top: 50%;
+        left: -50%;
+        transform: scale(0.20) translateY(-45%);
+        transform-origin: 0 0;
+        mix-blend-mode: darken;
+        cursor: pointer;
+      }
     }
     .played {
       color: #4c4c4c;
@@ -295,14 +339,119 @@ export default {
     }
   }
   .button {
-    padding: 10px 16px;
-    border-radius: 12px;
-    margin: 10px 10px;
-    background: @bgColor;
-    color: white;
+    font-weight: normal;
+    padding: 3px 16px;
+    border-radius: 3px;
+    margin: 10px 0;
+    background: white;
+    color: @bgColor;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+    border: none;
+    transition: all ease 120ms;
+    cursor: pointer;
     &:focus {
       outline: 12px;
+      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.85);
+    }
+    &:hover {
+      transform: scale(1.018);
+      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.45);
+    }
+
+    &.transparent {
+      box-shadow: none;
+      border-radius: 0;
+      padding: 0;
+      &:focus {
+        outline: 12px;
+        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.45);
+      }
+      &:hover {
+        transform: scale(1.018);
+        box-shadow: none;
+      }
     }
   }
 }
+</style>
+
+<style lang="less" scoped>
+.page-audio {
+  padding-top: 35px;
+  color: #212733;
+  h1 {
+    padding-left: 28px;
+    font-size: 18px;
+  }
+  header.control-header {
+    padding: 0 28px;
+    width: 350px;
+  }
+  .divider-line {
+    width: 1px;
+    background: rgba(33, 39, 51, 0.2);
+    height: 100%;
+    box-sizing: border-box;
+    min-height: 145px;
+    margin: 0 20px;
+  }
+  .form-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+    padding-right: 5px;
+    .label {
+      font-weight: 500;
+      min-width: 90px;
+      text-align: right;
+      font-size: 18px;
+      line-height: 25px;
+      color: #212733;
+      margin-right: 30px;
+    }
+    /deep/ .van-switch {
+      border-radius: 3px;
+      margin-left: 7px;
+      width: 3em;
+      .van-switch__node {
+        width: 1.5em;
+        border-radius: 3px;
+      }
+      &.van-switch--on .van-switch__node {
+        transform: translateX(1.5em);
+      }
+    }
+    /deep/ .van-radio-group {
+      display: flex;
+
+    }
+    /deep/ .van-radio {
+      .van-radio__icon {
+        display: none;
+      }
+
+      .van-radio__label {
+        background: #FFFFFF;
+        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 3px;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 16px;
+        color: #212733;
+        width: 52px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 7px;
+      }
+      .van-radio__icon--checked + .van-radio__label {
+        color: #ffffff;
+        background: #212733;
+      }
+    }
+
+  }
+}
+
 </style>
