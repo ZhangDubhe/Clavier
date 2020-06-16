@@ -53,6 +53,7 @@
     </div>
     </div>
 
+    <div class="piano-option-wrap">
     <div class="piano-options">
       <div class="option-item">
         <input type="checkbox" id="keyname" v-model="showKeyName">
@@ -72,6 +73,7 @@
           <option value="notes_pentatonic">Pentatonic - Far East </option>
         </select>
       </div>
+    </div>
     </div>
     <canvas id="audioEffectCanvas" ref="audioEffectCanvas">您的浏览器不支持<pre>Canvas</pre>。请升级到最新版的chrome、firefox、edge等浏览器。</canvas>
     <div class="audios-wrap" id="audios-wrap">
@@ -264,7 +266,7 @@ export default {
 .piano-part { width:100%; background-color: rgb(33,39,51); padding:20px;}
 .onepiano-app-wrap { width: 100%; min-height: 100%; position: relative; color: #000;
   .trade-mark { width: 100%; height: 60px; line-height: 60px; margin-left: 0; padding-top:10px; background-color: rgb(33,39,51);
-    .icon-piano { display: block; padding-top:10px; transform: scale(0.35); transform-origin: 30% 50%;}
+    .icon-piano { display: block; padding-top:10px; height: 89px; transform: scale(0.35); transform-origin: 30% 50%;}
     .trade-mark-txt {
       display: inline-block;
       font-size: 25px;
@@ -408,15 +410,20 @@ export default {
       width: 79%;
     }
   }
-
+  .piano-option-wrap {
+    color: white;
+    background: #212733;
+    padding: 10px 0;
+  }
   .piano-options {
     width: 90%;
-    margin: 10px auto;
+    margin: 0 auto;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+
     .option-item {
       height: 33px;
       line-height: 33px;
